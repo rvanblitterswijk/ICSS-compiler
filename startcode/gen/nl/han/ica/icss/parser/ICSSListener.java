@@ -1,4 +1,4 @@
-// Generated from D:/GitHub/icss/startcode/src/main/antlr4/nl/han/ica/icss/parser\ICSS.g4 by ANTLR 4.7.2
+// Generated from D:/GitHub/ICSS-compiler/startcode/src/main/antlr4/nl/han/ica/icss/parser\ICSS.g4 by ANTLR 4.7.2
 package nl.han.ica.icss.parser;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 

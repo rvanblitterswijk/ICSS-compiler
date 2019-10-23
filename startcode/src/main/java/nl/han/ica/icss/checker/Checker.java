@@ -38,7 +38,7 @@ public class Checker {
         } else if (node instanceof VariableReference) {
             checkIfVariablesAreDeclared(node);
         } else if (node instanceof Declaration) {
-            checkIfDeclarationTypesAreCorrect(node);
+            checkIfDeclarationTypesAreCorrect((Declaration) node);
         }
 
         if (node.getChildren().size() > 0) {
@@ -49,37 +49,41 @@ public class Checker {
         }
     }
 
-    private void checkIfDeclarationTypesAreCorrect(ASTNode node) {
-        if (((Declaration) node).property.name.equals("width") || ((Declaration) node).property.name.equals("height")) {
-            if (((Declaration) node).expression instanceof VariableReference) {
-                if (!(variableIsPixelOrPercentageLiteral(((VariableReference) ((Declaration) node).expression).name))) {
+    private void checkIfDeclarationTypesAreCorrect(Declaration node) {
+            if ((node).property.name.equals("width") || (node).property.name.equals("height")) {
+                if ((node).expression instanceof VariableReference) {
+                    if (!(variableIsPixelOrPercentageLiteral(((VariableReference) (node).expression).name))) {
+                        node.setError("Value type in declaration is incorrect");
+                    }
+                } else if ((node).expression instanceof AddOperation ||
+                        (node).expression instanceof MultiplyOperation ||
+                        (node).expression instanceof SubtractOperation) {
+                    for (ASTNode nextNode : node.getChildren()) {
+                        if (nextNode instanceof Declaration) {
+                            checkIfDeclarationTypesAreCorrect((Declaration) nextNode);
+                        }
+                    }
+                } else  if (!((node).expression instanceof PixelLiteral || (node).expression instanceof PercentageLiteral)) {
                     node.setError("Value type in declaration is incorrect");
                 }
-            } else if (((Declaration) node).expression instanceof AddOperation ||
-                    ((Declaration) node).expression instanceof MultiplyOperation ||
-                    ((Declaration) node).expression instanceof SubtractOperation) {
-                for (ASTNode nextNode : node.getChildren()) {
-                    checkIfDeclarationTypesAreCorrect(nextNode);
-                }
-            } else  if (!(((Declaration) node).expression instanceof PixelLiteral || ((Declaration) node).expression instanceof PercentageLiteral)) {
-                node.setError("Value type in declaration is incorrect");
-            }
-        } else if (((Declaration) node).property.name.equals("background-color") || ((Declaration) node).property.name.equals("color")) {
-            if (((Declaration) node).expression instanceof VariableReference) {
-                if (!(variableIsColorLiteral(((VariableReference) ((Declaration) node).expression).name))) {
+            } else if ((node).property.name.equals("background-color") || (node).property.name.equals("color")) {
+                if ((node).expression instanceof VariableReference) {
+                    if (!(variableIsColorLiteral(((VariableReference) (node).expression).name))) {
+                        node.setError("Value type in declaration is incorrect");
+                    }
+                } else if ((node).expression instanceof AddOperation ||
+                        (node).expression instanceof MultiplyOperation ||
+                        (node).expression instanceof SubtractOperation) {
+                    for (ASTNode nextNode : node.getChildren()) {
+                        if (nextNode instanceof Declaration) {
+                            checkIfDeclarationTypesAreCorrect((Declaration) nextNode);
+                        }
+                    }
+                } else if (!((node).expression instanceof ColorLiteral)) {
                     node.setError("Value type in declaration is incorrect");
                 }
-            } else if (((Declaration) node).expression instanceof AddOperation ||
-                    ((Declaration) node).expression instanceof MultiplyOperation ||
-                    ((Declaration) node).expression instanceof SubtractOperation) {
-                for (ASTNode nextNode : node.getChildren()) {
-                    checkIfDeclarationTypesAreCorrect(nextNode);
-                }
-            } else if (!(((Declaration) node).expression instanceof ColorLiteral)) {
-                node.setError("Value type in declaration is incorrect");
             }
         }
-    }
 
     private boolean variableIsColorLiteral(String variableName) {
         for (HashMap<String, ExpressionType> hashmap : variableTypes) {
@@ -108,7 +112,6 @@ public class Checker {
             if (variable.containsKey(variableName) && (variable.containsValue(ExpressionType.PIXEL) || variable.containsValue(ExpressionType.PERCENTAGE))) {
                 return true;
             } else if (variable.containsKey(variableName) && variable.containsValue(ExpressionType.VARIABLEREFERENCE)) {
-                System.out.println(variable.get(variable.get(variableName).toString()));
                 return isPixelOrPercentageLiteral(variable.get(variableName).toString());
             }
         }
@@ -139,7 +142,6 @@ public class Checker {
     private void checkIfConditionInIfClauseIsBoolean(ASTNode ifNode) {
         ASTNode conditionNode = ifNode.getChildren().get(0);
         if (conditionNode instanceof VariableReference) {
-            System.out.println((variableIsOfBoolType(((VariableReference) conditionNode).name)));
             if (!(variableIsOfBoolType(((VariableReference) conditionNode).name))) {
                 ifNode.setError("Conditions within an if statement need to be a boolean literal or variable reference to a boolean variable.");
             }
