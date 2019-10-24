@@ -1,6 +1,7 @@
 package nl.han.ica.icss.transforms;
 
 import nl.han.ica.icss.ast.*;
+import nl.han.ica.icss.ast.literals.*;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -23,19 +24,13 @@ public class EvalExpressions implements Transform {
     private void transformNodes(ASTNode node, ASTNode parentNode) {
         if (node instanceof Stylesheet) {
             collectVariableValuesInStyleSheetScope(node);
-            collectVariableValuesInStyleSheetScope(node);
         } else if (node instanceof Stylerule) {
             removeVariablesFromStyleruleScope();
             collectVariableValuesInStyleruleScope(node);
-        } else if (node instanceof IfClause) {
         } else if (node instanceof VariableReference) {
-
         } else if (node instanceof Operation) {
-
         } else if (node instanceof Literal) {
-
         }
-
         if (node.getChildren().size() > 0) {
             for (ASTNode nextNode : node.getChildren()) {
                 transformNodes(nextNode, parentNode);

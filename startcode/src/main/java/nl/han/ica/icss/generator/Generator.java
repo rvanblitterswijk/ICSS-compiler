@@ -48,6 +48,7 @@ public class Generator {
     }
 
     private void appendVariableValue(String variableReference, AST ast, StringBuilder output) {
+        int FIRST = 1;
         for (ASTNode node : ast.root.body) {
             if (node instanceof VariableAssignment) {
                 for (ASTNode VANode : node.getChildren()) {
