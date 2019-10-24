@@ -172,18 +172,6 @@ public class ICSSBaseListener implements ICSSListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAddOperation(ICSSParser.AddOperationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAddOperation(ICSSParser.AddOperationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterMultiplyOperation(ICSSParser.MultiplyOperationContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -196,25 +184,25 @@ public class ICSSBaseListener implements ICSSListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSubtractOperation(ICSSParser.SubtractOperationContext ctx) { }
+	@Override public void enterRawValue(ICSSParser.RawValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSubtractOperation(ICSSParser.SubtractOperationContext ctx) { }
+	@Override public void exitRawValue(ICSSParser.RawValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterOperation(ICSSParser.OperationContext ctx) { }
+	@Override public void enterMinOrPlusOperation(ICSSParser.MinOrPlusOperationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitOperation(ICSSParser.OperationContext ctx) { }
+	@Override public void exitMinOrPlusOperation(ICSSParser.MinOrPlusOperationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -54,11 +54,11 @@ classSelector: CLASS_IDENT;
 idSelector: ID_IDENT;
 
 declaration: propertyName COLON propertyExpression SEMICOLON;
-propertyExpression: propertyValue | multiplyOperation | addOperation | subtractOperation;
-addOperation: propertyValue PLUS operation;
-multiplyOperation: propertyValue MUL operation;
-subtractOperation: propertyValue MIN operation;
-operation: propertyValue | addOperation | multiplyOperation | subtractOperation;
+propertyExpression: propertyValue | operation | variableReference;
+operation: operation MUL operation #multiplyOperation
+    | operation (MIN|PLUS) operation #minOrPlusOperation
+    | propertyValue #literal;
+
 propertyValue: colorLiteral | pixelLiteral | variableReference | percentageLiteral | scalarLiteral;
 propertyName: LOWER_IDENT;
 
